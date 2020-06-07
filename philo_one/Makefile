@@ -1,0 +1,38 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2019/11/25 17:53:15 by ashishae          #+#    #+#              #
+#    Updated: 2020/06/07 14:20:12 by ashishae         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+SRCS = srcs/main.c srcs/libft_lite.c srcs/structure_management.c \
+srcs/utilities.c
+OBJS = $(SRCS:.c=.o)
+TEST_OBJS = $(TEST_SRCS:.c=.o)
+NAME = philo_one
+
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
+
+.PHONY: 	clean fclean all re bonus
+
+all:		$(NAME)
+
+.c.o:
+			gcc $(CFLAGS) -c $< -o $@
+
+$(NAME):	$(OBJS)
+			gcc -o $(NAME) $(OBJS) $(CFLAGS)
+
+clean:
+			rm -f $(OBJS) $(TEST_OBJS)
+
+fclean: 	clean
+			rm -f $(NAME)
+			rm -f test
+
+re:			fclean all
