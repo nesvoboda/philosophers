@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/07 18:02:25 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/07 14:25:37 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/07 16:46:55 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ void		init_mutexes(t_briefcase *proto);
 */
 
 long		get_time(void);
-void		print_state(char *state, int number, pthread_mutex_t *print_mutex);
+void		print_state(char *state, int number,
+							pthread_mutex_t *print_mutex, int *death_flag);
 int			left_fork(int total, int number);
 int			right_fork(int total, int number);
 
@@ -101,3 +102,20 @@ int			right_fork(int total, int number);
 
 void		eat(t_briefcase *info);
 void		*philosopher(void *value);
+
+/*
+** monitoring.c — fuctions that implement the monitoring threads. They
+** check if a philosopher has 'died'.
+*/
+
+int			check_dead(t_briefcase proto);
+void		*monitoring_thread(void *value);
+
+
+/*
+** threading.c — fuctions that start and control threads.
+*/
+
+void		init_threads(t_briefcase proto);
+int			check_exit_conditions(t_briefcase proto, int death_flag);
+int			threading (t_briefcase proto);
