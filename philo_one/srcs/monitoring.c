@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:29:49 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/07 17:52:30 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/12 18:59:33 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void	*monitoring_thread(void *value)
 	while (1)
 	{
 
-		now = get_time();
 		pthread_mutex_lock(monitor->protectors[monitor->number]);
+		now = get_time();
 		diff = now - monitor->lastmeal[monitor->number];
 		pthread_mutex_unlock(monitor->protectors[monitor->number]);
 
@@ -64,7 +64,7 @@ void	*monitoring_thread(void *value)
 			}
 			return (NULL);
 		}
-		usleep(500);
+		usleep(5000);
 	}
 	return (NULL);
 }

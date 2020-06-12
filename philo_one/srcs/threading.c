@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/07 17:49:13 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/12 18:47:09 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,14 @@ void init_threads(t_briefcase proto)
 	while (i < proto.total)
 	{
 		pthread_create(&thread_group[i], NULL, philosopher, briefcases[i]);
-		usleep(100);
+		usleep(10);
 		i++;
 	}
 	i = 0;
 	while (i < proto.total)
 	{
 		pthread_create(&monitoring_threads[i], NULL, monitoring_thread, briefcases[i]);
+		// usleep(10);
 		i++;
 	}
 }

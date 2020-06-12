@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:14:20 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/07 17:28:19 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/12 18:47:17 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ long	get_time(void)
 void	print_state(char *state, int number, pthread_mutex_t *print_mutex,
 					int *death_flag)
 {
-	long	time;
+	long	timev;
 
 	if (*death_flag != -1)
 		return ;
-	time = get_time();
+	timev = get_time();
 	pthread_mutex_lock(print_mutex);
-	ft_putnbr(time);
+	ft_putnbr(timev);
 	ft_putchar(' ');
 	ft_putnbr(number);
 	ft_putchar(' ');
