@@ -6,29 +6,17 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:10:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/07 14:11:44 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/15 18:51:50 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-t_monitor *give_monitor(int i, t_briefcase proto)
-{
-	t_monitor *result;
+/*
+** init_arrays resets all arrays in the 'briefcase' prototype called proto.
+*/
 
-	result = malloc(sizeof(t_monitor));
-	result->protectors = proto.protectors;
-	result->lastmeal = proto.lastmeal;
-	result->number = i;
-	result->time_to_die = proto.time_to_die;
-	result->death_flag = proto.death_flag;
-	result->print = proto.print;
-	result->meal_counts = proto.meal_counts;
-	result->eat_target = proto.eat_target;
-	return (result);
-}
-
-void	init_arrays(t_briefcase *proto)
+void		init_arrays(t_briefcase *proto)
 {
 	long	*last_meal;
 	int		*meal_counts;
@@ -48,7 +36,11 @@ void	init_arrays(t_briefcase *proto)
 	proto->meal_counts = meal_counts;
 }
 
-t_briefcase *give_briefcase(int number, t_briefcase proto)
+/*
+** give_briefcase creates a new 'briefcase' from the prototype proto.
+*/
+
+t_briefcase	*give_briefcase(int number, t_briefcase proto)
 {
 	t_briefcase *new_briefcase;
 	
@@ -67,7 +59,12 @@ t_briefcase *give_briefcase(int number, t_briefcase proto)
 	return new_briefcase;
 }
 
-void	init_mutexes(t_briefcase *proto)
+/*
+** init_mutexes creates mutexes in proto (the prototype of all future)
+** 'briefcases'.
+*/
+
+void		init_mutexes(t_briefcase *proto)
 {
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	*protectors;

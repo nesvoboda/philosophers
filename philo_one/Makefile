@@ -6,12 +6,13 @@
 #    By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/25 17:53:15 by ashishae          #+#    #+#              #
-#    Updated: 2020/06/12 18:44:04 by ashishae         ###   ########.fr        #
+#    Updated: 2020/06/15 15:05:58 by ashishae         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS = srcs/main.c srcs/libft_lite.c srcs/structure_management.c \
-srcs/utilities.c srcs/philosopher.c srcs/monitoring.c srcs/threading.c
+srcs/utilities.c srcs/philosopher.c srcs/monitoring.c srcs/threading.c \
+srcs/print_long.c
 OBJS = $(SRCS:.c=.o)
 TEST_OBJS = $(TEST_SRCS:.c=.o)
 NAME = philo_one

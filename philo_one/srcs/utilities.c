@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:14:20 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/12 18:47:17 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/15 18:28:06 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,34 +23,33 @@ long	get_time(void)
 	return (seconds);
 }
 
+/*
+** A typical status message is structured as follows:
+** [timestamp (long)] [philosopher index (int)] [state (string)]\n
+** Long is 19 digits long.
+** Int is 9 digits long.
+** The longest state is 16 characters long.
+** We don't need more than 50 characters for printing out the status message.
+*/
+
 void	print_state(char *state, int number, pthread_mutex_t *print_mutex,
 					int *death_flag)
 {
 	long	timev;
+	char	buffer[50];
+	int		position;
 
 	if (*death_flag != -1)
 		return ;
-	timev = get_time();
+	memset(buffer, 0, 50);
+	timev = get_time() - g_time_start;
+	position = print_long((unsigned long)timev, buffer);
+	buffer[position] = ' ';
+	position += print_long((unsigned long)number, &buffer[position+1]) + 1;
+	buffer[position] = ' ';
+	position += ft_strlcpy(&buffer[position+1], state, ft_strlen(state)+1) + 1;
+	buffer[position] = '\n';
 	pthread_mutex_lock(print_mutex);
-	ft_putnbr(timev);
-	ft_putchar(' ');
-	ft_putnbr(number);
-	ft_putchar(' ');
-	ft_putstr(state);
-	ft_putchar('\n');
+	ft_putstr(buffer);
 	pthread_mutex_unlock(print_mutex);
-}
-
-int		left_fork(int total, int number)
-{
-	if (number == 0)
-		return (total - 1);
-	else
-		return (number - 1);
-}
-
-int		right_fork(int total, int number)
-{
-	(void)total;
-	return (number);
 }

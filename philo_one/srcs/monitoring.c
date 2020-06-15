@@ -6,62 +6,59 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:29:49 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/12 18:59:33 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/15 19:00:07 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
 /*
-** check_dead goes through all last_meal timestamps and checks if a philosopher
-** hasn't had a meal in more than time_to_die miliseconds.
+** proclaim_death prints out a status message about the death of the
+** philosopher the current threads monitors. Then it locks the print
+** mutex (to prevent other threads from printing other status messages).
+**
+** This only happens if another philosopher hasn't died yet
+** (and death_flag is set to something other than -1).
+** 
+** Then, death_flag is set to the number of monitored philosopher.
 */
 
-int		check_dead(t_briefcase proto)
+void	proclaim_death(t_briefcase *monitor)
 {
-	int		i;
-	long	now;
-
-	now = get_time();
-	// printf("Last meals is:\n");
-	// for (int y = 0; y < proto.total; y++)
-	// 	printf("i: %d, lastmeal: %ld, difference with now: %ld\n", y, proto.lastmeal[y], now - proto.lastmeal[y]);
-	i = 0;
-	while (i < proto.total)
+	if (*(monitor->death_flag) == -1)
 	{
-		if ((int)(now - proto.lastmeal[i]) >= proto.time_to_die)
-			return (i);
-		i++;
+		print_state("died", monitor->number, monitor->print,
+					monitor->death_flag);
+		pthread_mutex_lock(monitor->print);
+		*(monitor->death_flag) = monitor->number;
 	}
-	return (0);
-
 }
+
+/*
+** monitoring_thread is the function that is run by all monitoring threads.
+** It checks if current philosopher has died (more then time_to_die milliseconds
+** have elapsed since the time recorded in lastmeal), or any other
+** philosopher has died in the meantime (death_flag is not -1). If so, it calls 
+** proclaim_death and exits.
+*/
 
 void	*monitoring_thread(void *value)
 {
-	t_briefcase *monitor;
-	long	now;
-	long 	diff;
+	t_briefcase	*monitor;
+	long		now;
+	long		diff;
 
 	monitor = value;
 	now = get_time();
 	while (1)
 	{
-
 		pthread_mutex_lock(monitor->protectors[monitor->number]);
 		now = get_time();
-		diff = now - monitor->lastmeal[monitor->number];
 		pthread_mutex_unlock(monitor->protectors[monitor->number]);
-
-		if (diff >= monitor->time_to_die)
+		diff = now - monitor->lastmeal[monitor->number];
+		if (diff > monitor->time_to_die || *(monitor->death_flag) != -1)
 		{
-			if (*(monitor->death_flag) == -1)
-			{
-				print_state("died", monitor->number, monitor->print,
-							monitor->death_flag);
-				pthread_mutex_lock(monitor->print);
-				*(monitor->death_flag) = monitor->number;
-			}
+			proclaim_death(monitor);
 			return (NULL);
 		}
 		usleep(5000);

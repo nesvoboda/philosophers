@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/06 17:04:19 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/07 14:35:03 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/15 15:31:22 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int main(int ac, char **av)
 {
 	t_briefcase proto;
 
+	g_time_start = get_time();
 	if (set_parameters(ac, av, &proto) < 0)
 		return (0);
 	return (threading(proto));
