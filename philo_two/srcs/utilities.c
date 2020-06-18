@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:14:20 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/18 12:31:46 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/18 18:05:51 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,16 @@ long	get_time(void)
 ** We don't need more than 50 characters for printing out the status message.
 */
 
-void	print_state(char *state, int number, pthread_mutex_t *print_mutex,
+void	print_state(char *state, int number, sem_t *print,
 					int *death_flag)
 {
 	long	timev;
 	char	buffer[50];
 	int		position;
 
-	if (*death_flag != -1)
-		return ;
+	(void) death_flag;
+	// if (*death_flag != -1)
+	// 	return ;
 	memset(buffer, 0, 50);
 	timev = get_time() - g_time_start;
 	position = print_long((unsigned long)timev, buffer);
@@ -50,7 +51,7 @@ void	print_state(char *state, int number, pthread_mutex_t *print_mutex,
 	position += ft_strlcpy(&buffer[position + 1],
 		state, ft_strlen(state) + 1) + 1;
 	buffer[position] = '\n';
-	pthread_mutex_lock(print_mutex);
+	sem_wait(print);
 	ft_putstr(buffer);
-	pthread_mutex_unlock(print_mutex);
+	sem_post(print);
 }

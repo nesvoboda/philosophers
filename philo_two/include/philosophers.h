@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/07 18:02:25 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/18 12:08:14 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/18 18:32:31 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <string.h>
+# include <semaphore.h>
 
 /*
 ** A 'briefcase' is a structure that contains:
@@ -41,9 +42,9 @@ typedef struct	s_briefcase
 	int				total;
 	long			*lastmeal;
 	int				*meal_counts;
-	pthread_mutex_t	**forks;
-	pthread_mutex_t	**protectors;
-	pthread_mutex_t	*print;
+	sem_t			**protectors;
+	sem_t			*print;
+	sem_t			*fork_semaphore;
 	int				*death_flag;
 }				t_briefcase;
 
@@ -84,7 +85,7 @@ void			init_mutexes(t_briefcase *proto);
 
 long			get_time(void);
 void			print_state(char *state, int number,
-							pthread_mutex_t *print_mutex, int *death_flag);
+							sem_t *print, int *death_flag);
 
 /*
 ** philosopher.c — fuctions that implement the functionality of a philosopher.

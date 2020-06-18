@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:10:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/18 12:19:34 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/18 18:39:14 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,42 +49,58 @@ t_briefcase	*give_briefcase(int number, t_briefcase proto)
 	new_briefcase->time_to_eat = proto.time_to_eat;
 	new_briefcase->time_to_die = proto.time_to_die;
 	new_briefcase->total = proto.total;
-	new_briefcase->forks = proto.forks;
 	new_briefcase->lastmeal = proto.lastmeal;
 	new_briefcase->number = number;
 	new_briefcase->print = proto.print;
 	new_briefcase->death_flag = proto.death_flag;
 	new_briefcase->meal_counts = proto.meal_counts;
 	new_briefcase->protectors = proto.protectors;
+	new_briefcase->fork_semaphore = proto.fork_semaphore;
 	return (new_briefcase);
+}
+
+/*
+** new_semaphore tries to create a new semaphore with name name. If it
+** already exists, it will be unlinked and recreated to ensure compliance
+** with problem conditions.
+*/
+
+sem_t	*new_semaphore(char *name, int value)
+{
+	sem_t *result;
+	result = sem_open(name, O_CREAT | O_EXCL, S_IRWXU, value);
+	if (result == SEM_FAILED)
+	{
+		sem_unlink(name);
+		return (sem_open(name, O_CREAT | O_EXCL, S_IRWXU, value));
+	}
+	else
+		return (result);
 }
 
 /*
 ** init_mutexes creates mutexes in proto (the prototype of all future)
 ** 'briefcases'.
+** Peculiar moment: the variable 'name' is a 12-character array
+** because the number of philosophers is an int. Therefore, a
+** semaphore name p[n], where n is the number of philosophers,
+** can occupy no more than 12 characters (one for 'p', 10 for n, one for '\0').
 */
 
 void		init_mutexes(t_briefcase *proto)
 {
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	*protectors;
-	pthread_mutex_t	*mtx;
 	int				i;
+	char name[12];
 
 	i = 0;
-	mtx = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(mtx, NULL);
-	proto->print = mtx;
-	forks = malloc(sizeof(pthread_mutex_t) * (proto->total));
-	protectors = malloc(sizeof(pthread_mutex_t) * (proto->total));
-	proto->forks = malloc(sizeof(pthread_mutex_t*) * (proto->total));
-	proto->protectors = malloc(sizeof(pthread_mutex_t*) * (proto->total));
+	proto->print = new_semaphore("print", 1);
+	proto->fork_semaphore = new_semaphore("forks", proto->total);
+	proto->protectors = malloc(sizeof(sem_t *) * (proto->total));
+	name[0] = 'p';
 	while (i < proto->total)
 	{
-		pthread_mutex_init(&forks[i], NULL);
-		pthread_mutex_init(&protectors[i], NULL);
-		proto->forks[i] = &forks[i];
-		proto->protectors[i] = &protectors[i];
+		print_long((unsigned long)i, &name[1]);
+		proto->protectors[i] = new_semaphore(name, 1);
 		i++;
 	}
 }

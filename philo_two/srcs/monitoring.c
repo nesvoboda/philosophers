@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:29:49 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/18 12:18:05 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/18 18:34:37 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,9 @@ void	proclaim_death(t_briefcase *monitor)
 {
 	if (*(monitor->death_flag) == -1)
 	{
+		*(monitor->death_flag) = monitor->number;
 		print_state("died", monitor->number, monitor->print,
 					monitor->death_flag);
-		pthread_mutex_lock(monitor->print);
-		*(monitor->death_flag) = monitor->number;
 	}
 }
 
@@ -52,9 +51,11 @@ void	*monitoring_thread(void *value)
 	now = get_time();
 	while (1)
 	{
-		pthread_mutex_lock(monitor->protectors[monitor->number]);
+		sem_wait(monitor->protectors[monitor->number]);
+		// pthread_mutex_lock(monitor->protectors[monitor->number]);
 		now = get_time();
-		pthread_mutex_unlock(monitor->protectors[monitor->number]);
+		// pthread_mutex_unlock(monitor->protectors[monitor->number]);
+		sem_post(monitor->protectors[monitor->number]);
 		diff = now - monitor->lastmeal[monitor->number];
 		if (diff > monitor->time_to_die || *(monitor->death_flag) != -1)
 		{

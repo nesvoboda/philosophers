@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/18 15:12:25 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/18 17:53:08 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,14 @@ int		check_exit_conditions(t_briefcase proto, int death_flag)
 	return (0);
 }
 
+void	destroy_semaphores(t_briefcase info)
+{
+	sem_close(info.fork_semaphore);
+	sem_close(info.print);
+	sem_unlink("print");
+	sem_unlink("forks");
+}
+
 int		threading(t_briefcase proto)
 {
 	int			death_flag;
@@ -78,8 +86,12 @@ int		threading(t_briefcase proto)
 	while (1)
 	{
 		if (check_exit_conditions(proto, death_flag))
+		{
+			// destroy_semaphores(proto);
 			return (0);
-		usleep(100);
+		}
+		usleep(50);
 	}
+	// destroy_semaphores(proto);
 	return (0);
 }
