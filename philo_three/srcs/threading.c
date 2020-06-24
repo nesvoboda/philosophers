@@ -6,16 +6,17 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/24 16:26:20 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/24 16:53:58 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-void	init_threads(t_briefcase proto, pthread_t *thread_group,
+void		*init_threads(t_briefcase proto, pthread_t *thread_group,
 			pthread_t *monitoring_threads, t_briefcase **briefcases)
 {
 	int			i;
+	pid_t		pid;
 
 	i = 0;
 	while (i < proto.total)
@@ -26,17 +27,26 @@ void	init_threads(t_briefcase proto, pthread_t *thread_group,
 	i = 0;
 	while (i < proto.total)
 	{
-		pthread_create(&thread_group[i], NULL, philosopher, briefcases[i]);
+		// pthread_create(&thread_group[i], NULL, philosopher, briefcases[i]);
+		pid = fork();
+		if (pid == 0)
+			return (philosopher(&briefcases[i]));
+		proto.processes[i] = pid;
 		usleep(50);
 		i++;
 	}
 	i = 0;
 	while (i < proto.total)
 	{
-		pthread_create(&monitoring_threads[i], NULL, monitoring_thread,
-			briefcases[i]);
+		// pthread_create(&monitoring_threads[i], NULL, monitoring_thread,
+			// briefcases[i]);
+		pid = fork();
+		if (pid == 0)
+			return (monitoring_thread(&briefcases[i]));
+		proto.processes[i + proto.total] = pid;
 		i++;
 	}
+	return (0);
 }
 
 int		check_exit_conditions(t_briefcase proto, int death_flag)
@@ -81,11 +91,22 @@ void	destroy_semaphores(t_briefcase info)
 	}
 }
 
+void	kill_all_processes(t_briefcase info)
+{
+	int i;
+
+	i = 0;
+	while (i < info.total * 2)
+	{
+		kill(processes[i]);
+		i++;
+	}
+}
+
 int		threading(t_briefcase proto)
 {
 	int			death_flag;
-	pthread_t	*thread_group;
-	pthread_t	*monitoring_threads;
+	pid_t		*processes;
 	t_briefcase	**briefcases;
 
 	death_flag = -1;

@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:10:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/24 16:26:14 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/24 16:50:25 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void		init_arrays(t_briefcase *proto)
 
 	last_meal = malloc(sizeof(long) * proto->total);
 	meal_counts = malloc(sizeof(int) * proto->total);
+	proto->processes = malloc(sizeof(pid_t) * proto->total * 2);
 	last_meal[0] = get_time();
 	i = 0;
 	while (i < proto->total)

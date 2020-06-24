@@ -6,7 +6,7 @@
 #    By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/25 17:53:15 by ashishae          #+#    #+#              #
-#    Updated: 2020/06/24 15:14:06 by ashishae         ###   ########.fr        #
+#    Updated: 2020/06/24 16:39:11 by ashishae         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ srcs/utilities.c srcs/philosopher.c srcs/monitoring.c srcs/threading.c \
 srcs/print_long.c
 OBJS = $(SRCS:.c=.o)
 TEST_OBJS = $(TEST_SRCS:.c=.o)
-NAME = philo_two
+NAME = philo_three
 
 CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
 

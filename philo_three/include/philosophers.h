@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/07 18:02:25 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/24 16:25:59 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/24 16:53:25 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <sys/time.h>
 # include <string.h>
 # include <semaphore.h>
+# include <signal.h>
 
 /*
 ** A 'briefcase' is a structure that contains:
@@ -46,6 +47,7 @@ typedef struct	s_briefcase
 	sem_t			*print;
 	sem_t			*fork_semaphore;
 	int				*death_flag;
+	pid_t			*processes;
 }				t_briefcase;
 
 /*
@@ -92,6 +94,7 @@ void			print_state(char *state, int number, sem_t *print);
 
 void			eat(t_briefcase *info);
 void			*philosopher(void *value);
+int				philosopher2(void *value);
 
 /*
 ** monitoring.c — fuctions that implement the monitoring threads. They
@@ -104,7 +107,7 @@ void			*monitoring_thread(void *value);
 ** threading.c — fuctions that start and control threads.
 */
 
-void			init_threads(t_briefcase proto, pthread_t *thread_group,
+void			*init_threads(t_briefcase proto, pthread_t *thread_group,
 		pthread_t *monitoring_threads, t_briefcase **briefcases);
 int				check_exit_conditions(t_briefcase proto, int death_flag);
 int				threading (t_briefcase proto);
