@@ -6,14 +6,14 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/24 16:53:58 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/24 16:57:11 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-void		*init_threads(t_briefcase proto, pthread_t *thread_group,
-			pthread_t *monitoring_threads, t_briefcase **briefcases)
+void		*init_threads(t_briefcase proto, t_briefcase **briefcases, 
+	pid_t *processes)
 {
 	int			i;
 	pid_t		pid;
@@ -91,14 +91,14 @@ void	destroy_semaphores(t_briefcase info)
 	}
 }
 
-void	kill_all_processes(t_briefcase info)
+void	kill_all_processes(int total, pid_t *processes)
 {
 	int i;
 
 	i = 0;
-	while (i < info.total * 2)
+	while (i < total)
 	{
-		kill(processes[i]);
+		kill(processes[i], SIGKILL);
 		i++;
 	}
 }
@@ -115,9 +115,7 @@ int		threading(t_briefcase proto)
 		return (-1);
 	init_arrays(&proto);
 	briefcases = malloc(sizeof(t_briefcase *) * proto.total);
-	thread_group = malloc(sizeof(pthread_t) * proto.total);
-	monitoring_threads = malloc(sizeof(pthread_t) * proto.total);
-	init_threads(proto, thread_group, monitoring_threads, briefcases);
+	init_threads(proto, briefcases, processes);
 	while (1)
 	{
 		if (check_exit_conditions(proto, death_flag))
