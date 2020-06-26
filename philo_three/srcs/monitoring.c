@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:29:49 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/24 16:22:04 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/26 18:34:32 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,11 @@
 
 void	proclaim_death(t_briefcase *monitor)
 {
-	if (*(monitor->death_flag) == -1)
-	{
-		*(monitor->death_flag) = monitor->number;
-		print_state("died", monitor->number, monitor->print);
-		sem_wait(monitor->print);
-	}
+	// sem_wait(monitor->death_flag);
+	print_state("died", monitor->number, monitor->print);
+	sem_wait(monitor->print);
+	// kill(monitor->processes[monitor->number], SIGTERM);
+	exit(0);
 }
 
 /*
@@ -54,13 +53,16 @@ void	*monitoring_thread(void *value)
 		sem_wait(monitor->protectors[monitor->number]);
 		now = get_time();
 		sem_post(monitor->protectors[monitor->number]);
-		diff = now - monitor->lastmeal[monitor->number];
-		if (diff > monitor->time_to_die || *(monitor->death_flag) != -1)
+		// printf("%d monitored\n", monitor->number);
+		diff = now - monitor->last_meal;
+		if (diff > monitor->time_to_die)
 		{
+			// printf("M%d: last_meal %ld\n", monitor->number, monitor->last_meal-g_time_start);
+			// printf("%d died\n", monitor->number);
 			proclaim_death(monitor);
-			return (NULL);
+			exit(0);
 		}
 		usleep(5000);
 	}
-	return (NULL);
+	// return (NULL);
 }

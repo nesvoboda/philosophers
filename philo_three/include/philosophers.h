@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/07 18:02:25 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/24 16:57:32 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/25 17:26:16 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ typedef struct	s_briefcase
 	sem_t			**protectors;
 	sem_t			*print;
 	sem_t			*fork_semaphore;
-	int				*death_flag;
+	sem_t			*death_flag;
+	pid_t			*processes;
+	long			last_meal;
+	int				meal_count;
 }				t_briefcase;
 
 /*
@@ -76,7 +79,7 @@ void			ft_putnbr(long n);
 */
 
 void			init_arrays(t_briefcase *proto);
-t_briefcase		*give_briefcase(int number, t_briefcase proto);
+t_briefcase		*give_briefcase(int number, t_briefcase *proto);
 int				init_semaphores(t_briefcase *proto);
 
 /*
@@ -105,9 +108,8 @@ void			*monitoring_thread(void *value);
 ** threading.c — fuctions that start and control threads.
 */
 
-void			*init_threads(t_briefcase proto, t_briefcase **briefcases,
-	pid_t *processes);
-int				check_exit_conditions(t_briefcase proto, int death_flag);
+void			*init_threads(t_briefcase *proto, t_briefcase **briefcases);
+int				check_exit_conditions(t_briefcase *proto, int death_flag);
 int				threading (t_briefcase proto);
 
 /*

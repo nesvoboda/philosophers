@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:10:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/24 16:56:03 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/25 19:37:15 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,35 @@ void		init_arrays(t_briefcase *proto)
 		i++;
 	}
 	proto->lastmeal = last_meal;
+	proto->last_meal = last_meal[0];
+	proto->meal_count = 0;
 	proto->meal_counts = meal_counts;
+	proto->processes = malloc(sizeof(pid_t) * proto->total);
 }
 
 /*
 ** give_briefcase creates a new 'briefcase' from the prototype proto.
 */
 
-t_briefcase	*give_briefcase(int number, t_briefcase proto)
+t_briefcase	*give_briefcase(int number, t_briefcase *proto)
 {
 	t_briefcase *new_briefcase;
 
 	new_briefcase = malloc(sizeof(t_briefcase));
-	new_briefcase->time_to_sleep = proto.time_to_sleep;
-	new_briefcase->time_to_eat = proto.time_to_eat;
-	new_briefcase->time_to_die = proto.time_to_die;
-	new_briefcase->total = proto.total;
-	new_briefcase->lastmeal = proto.lastmeal;
+	new_briefcase->time_to_sleep = proto->time_to_sleep;
+	new_briefcase->time_to_eat = proto->time_to_eat;
+	new_briefcase->time_to_die = proto->time_to_die;
+	new_briefcase->total = proto->total;
+	new_briefcase->lastmeal = proto->lastmeal;
 	new_briefcase->number = number;
-	new_briefcase->print = proto.print;
-	new_briefcase->death_flag = proto.death_flag;
-	new_briefcase->meal_counts = proto.meal_counts;
-	new_briefcase->protectors = proto.protectors;
-	new_briefcase->fork_semaphore = proto.fork_semaphore;
+	new_briefcase->print = proto->print;
+	new_briefcase->death_flag = proto->death_flag;
+	new_briefcase->meal_counts = proto->meal_counts;
+	new_briefcase->protectors = proto->protectors;
+	new_briefcase->fork_semaphore = proto->fork_semaphore;
+	new_briefcase->processes = proto->processes;
+	new_briefcase->last_meal = proto->last_meal;
+	new_briefcase->meal_count = proto->last_meal;
 	return (new_briefcase);
 }
 
@@ -98,6 +104,7 @@ int			init_semaphores(t_briefcase *proto)
 
 	i = 0;
 	proto->print = new_semaphore("print", 1);
+	proto->death_flag = new_semaphore("death_flag ", 1);
 	proto->fork_semaphore = new_semaphore("forks", proto->total);
 	proto->protectors = malloc(sizeof(sem_t *) * (proto->total));
 	name[0] = 'p';
