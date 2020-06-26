@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:23:59 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/26 17:58:20 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/26 18:40:25 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	eat(t_briefcase *info)
 	info->last_meal = get_time();
 	// printf("P%d: last_meal %ld\n", info->number, info->last_meal-g_time_start);
 	info->meal_count += 1;
+	// printf("meal_count: %d\n", info->meal_count);
 	print_state("is eating", number, info->print);
 	usleep(info->time_to_eat * 1000);
 	sem_post(info->fork_semaphore);

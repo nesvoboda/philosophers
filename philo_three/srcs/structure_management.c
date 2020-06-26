@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:10:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/25 19:37:15 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/26 18:51:22 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ t_briefcase	*give_briefcase(int number, t_briefcase *proto)
 	new_briefcase->fork_semaphore = proto->fork_semaphore;
 	new_briefcase->processes = proto->processes;
 	new_briefcase->last_meal = proto->last_meal;
-	new_briefcase->meal_count = proto->last_meal;
+	new_briefcase->meal_count = proto->meal_count;
+	new_briefcase->eat_target = proto->eat_target;
 	return (new_briefcase);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/26 18:33:37 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/26 18:40:52 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@ void		*init_threads(t_briefcase *proto, t_briefcase **briefcases)
 	while (i < proto->total)
 	{
 		briefcases[i] = give_briefcase(i, proto);
+		printf("At start, meal_count is %d\n", briefcases[i]->meal_count);
 		i++;
 	}
 	i = 0;
+	
 	monitoring_threado = malloc(sizeof(pthread_t));
 	while (i < proto->total)
 	{

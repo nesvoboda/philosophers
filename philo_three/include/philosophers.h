@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/07 18:02:25 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/25 17:26:16 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/26 18:50:31 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct	s_briefcase
 	pid_t			*processes;
 	long			last_meal;
 	int				meal_count;
+	sem_t			**meal_counters;
 }				t_briefcase;
 
 /*

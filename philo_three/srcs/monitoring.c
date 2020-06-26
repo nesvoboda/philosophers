@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:29:49 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/26 18:34:32 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/26 18:46:28 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	*monitoring_thread(void *value)
 		sem_post(monitor->protectors[monitor->number]);
 		// printf("%d monitored\n", monitor->number);
 		diff = now - monitor->last_meal;
+		// printf("meal count: %d, meal_target: %d\n", monitor->meal_count, monitor->eat_target);
 		if (diff > monitor->time_to_die)
 		{
 			// printf("M%d: last_meal %ld\n", monitor->number, monitor->last_meal-g_time_start);
