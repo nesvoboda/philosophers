@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/26 18:40:52 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/29 12:35:52 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void		*init_threads(t_briefcase *proto, t_briefcase **briefcases)
 	// 	// processes[i + proto->total] = pid;
 	// 	i++;
 	// }
+	printf("Finishing init_threads\n");
 	return (0);
 }
 
@@ -118,12 +119,63 @@ void	kill_all_processes(int total, pid_t *processes)
 	}
 }
 
+
+int all_finished(int *array, int total)
+{
+	int i;
+
+	i = 0;
+	while (i < total)
+	{
+		if (array[i] != 1)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+void	wait_children(t_briefcase *proto)
+{
+	int i;
+	int status;
+	int *finished;
+
+	finished = malloc(sizeof(int) * proto->total);
+	// memset(finished, 0, proto->total);
+	// printf("Starting to wait wait_children\n");
+	status = 42;
+	while (1)
+	{
+		i = 0;
+		// printf("Checking status\n");
+		while(i < proto->total)
+		{
+			waitpid(proto->processes[i], &status, WNOHANG);
+			if (WIFEXITED(status))
+			{
+				if (WEXITSTATUS(status) == 1)
+				{
+					printf("%d finished as 1\n", i);
+					finished[i] = 1;
+				}
+				else if (WEXITSTATUS(status) == 0)
+					return ;
+				}
+			i++;
+		}
+		if (all_finished(finished, proto->total))
+		{
+			kill_all_processes(proto->total, proto->processes);
+			return ;
+		}
+		usleep(50);
+	}
+}
+
 int		threading(t_briefcase proto)
 {
 	pid_t		*processes;
 	t_briefcase	**briefcases;
-	int			i;
-	int			status;
 	// int			pid;
 
 	// proto.death_flag = &death_flag;
@@ -133,26 +185,7 @@ int		threading(t_briefcase proto)
 	briefcases = malloc(sizeof(t_briefcase *) * proto.total);
 	processes = malloc(sizeof(pid_t) * (proto.total * 2));
 	init_threads(&proto, briefcases);
-	i = 0;
-	// wait(NULL);
-	while(1)
-	{
-		i = 0;
-		status = -42;
-		while (i < proto.total)
-		{
-			waitpid(proto.processes[i], &status, WNOHANG);
-			if (status != -42)
-			{
-				// printf("NONZERO STATUS\n");
-				kill_all_processes(proto.total, proto.processes);
-				exit(0);
-			}
-			i++;
-		}
-		
-	}
-	
+	wait_children(&proto);
 	printf("Exiting");
 	return (0);
 }
