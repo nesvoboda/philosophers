@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/06 17:04:19 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/24 16:25:32 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/29 16:42:38 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,15 @@ int	set_parameters(int ac, char **av, t_briefcase *proto)
 int	main(int ac, char **av)
 {
 	t_briefcase proto;
+	t_briefcase	**briefcases;
 
+	briefcases = NULL;
 	g_time_start = get_time();
 	if (set_parameters(ac, av, &proto) < 0)
 		return (0);
-	if (threading(proto) == -1)
+	if (threading(proto, briefcases) == -1)
 		ft_putstr("Error while creating semaphores. "
 					"Probably too many philosophers\n");
+	printf("DONE, brief: %p\n", &briefcases);
 	return (0);
 }

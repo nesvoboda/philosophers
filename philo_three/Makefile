@@ -6,19 +6,20 @@
 #    By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/25 17:53:15 by ashishae          #+#    #+#              #
-#    Updated: 2020/06/24 16:39:11 by ashishae         ###   ########.fr        #
+#    Updated: 2020/06/29 17:51:09 by ashishae         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS = srcs/main.c srcs/libft_lite.c srcs/structure_management.c \
 srcs/utilities.c srcs/philosopher.c srcs/monitoring.c srcs/threading.c \
-srcs/print_long.c
+srcs/print_long.c srcs/main_process.c
 OBJS = $(SRCS:.c=.o)
 TEST_OBJS = $(TEST_SRCS:.c=.o)
 NAME = philo_three
 
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
+# CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
 
+CFLAGS =
 .PHONY: 	clean fclean all re bonus
 
 all:		$(NAME)

@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/07 18:02:25 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/26 18:50:31 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/30 17:46:16 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <string.h>
 # include <semaphore.h>
 # include <signal.h>
+# include <sys/wait.h>
 
 /*
 ** A 'briefcase' is a structure that contains:
@@ -41,16 +42,12 @@ typedef struct	s_briefcase
 	int				time_to_die;
 	int				eat_target;
 	int				total;
-	long			*lastmeal;
-	int				*meal_counts;
 	sem_t			**protectors;
 	sem_t			*print;
 	sem_t			*fork_semaphore;
-	sem_t			*death_flag;
 	pid_t			*processes;
 	long			last_meal;
 	int				meal_count;
-	sem_t			**meal_counters;
 }				t_briefcase;
 
 /*
@@ -79,7 +76,7 @@ void			ft_putnbr(long n);
 ** and set default values
 */
 
-void			init_arrays(t_briefcase *proto);
+void			init_variables(t_briefcase *proto);
 t_briefcase		*give_briefcase(int number, t_briefcase *proto);
 int				init_semaphores(t_briefcase *proto);
 
@@ -109,9 +106,10 @@ void			*monitoring_thread(void *value);
 ** threading.c — fuctions that start and control threads.
 */
 
-void			*init_threads(t_briefcase *proto, t_briefcase **briefcases);
-int				check_exit_conditions(t_briefcase *proto, int death_flag);
-int				threading (t_briefcase proto);
+void			*init_threads(t_briefcase *proto, t_briefcase **briefcases,
+					pthread_t **monitors);
+int				threading (t_briefcase proto, t_briefcase **briefcases);
+void			kill_all_processes(int total, pid_t *processes);
 
 /*
 ** print_long.c — a function that writes a long to a given character buffer.
@@ -120,5 +118,15 @@ int				threading (t_briefcase proto);
 
 int				print_long(unsigned long n, char *result);
 size_t			ft_strlcpy(char *dst, char *src, size_t dstsize);
+
+/*
+** main_process.c — the main process will wait on the children processes,
+** and check if they have died (and terminate the simulation in this case)
+*/
+
+void			kill_all_processes(int total, pid_t *processes);
+int				all_finished(int *array, int total);
+int				check_exits(int *finished, t_briefcase *proto);
+void			wait_children(t_briefcase *proto);
 
 #endif

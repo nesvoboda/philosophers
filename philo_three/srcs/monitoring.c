@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:29:49 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/29 12:42:39 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/06/29 13:02:52 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 ** proclaim_death prints out a status message about the death of the
 ** philosopher the current threads monitors. Then it posts to the print
 ** semaphore (to prevent other threads from printing other status messages).
-**
 */
 
 void	proclaim_death(t_briefcase *monitor)
