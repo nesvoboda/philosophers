@@ -20,6 +20,8 @@
 # include <sys/time.h>
 # include <string.h>
 # include <semaphore.h>
+# include <fcntl.h>
+# include <errno.h>
 
 /*
 ** A 'briefcase' is a structure that contains:

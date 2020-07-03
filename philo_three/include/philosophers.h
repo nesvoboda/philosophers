@@ -22,6 +22,8 @@
 # include <semaphore.h>
 # include <signal.h>
 # include <sys/wait.h>
+# include <errno.h>
+# include <fcntl.h>
 
 /*
 ** A 'briefcase' is a structure that contains:

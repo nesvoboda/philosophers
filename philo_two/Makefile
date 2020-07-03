@@ -17,7 +17,7 @@ OBJS = $(SRCS:.c=.o)
 TEST_OBJS = $(TEST_SRCS:.c=.o)
 NAME = philo_two
 
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -pthread #-fsanitize=address
 
 .PHONY: 	clean fclean all re bonus
 
