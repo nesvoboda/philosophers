@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/06 17:04:19 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/29 16:42:38 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/03 14:13:39 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,5 @@ int	main(int ac, char **av)
 	if (threading(proto, briefcases) == -1)
 		ft_putstr("Error while creating semaphores. "
 					"Probably too many philosophers\n");
-	printf("DONE, brief: %p\n", &briefcases);
 	return (0);
 }

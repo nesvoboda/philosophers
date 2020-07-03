@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:10:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/30 17:37:52 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/03 14:13:52 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ int			init_semaphores(t_briefcase *proto)
 	proto->print = new_semaphore("print", 1);
 	proto->fork_semaphore = new_semaphore("forks", proto->total);
 	proto->protectors = malloc(sizeof(sem_t *) * (proto->total));
-	printf("proto->protectors %p\n", proto->protectors);
 	name[0] = 'p';
 	while (i < proto->total)
 	{
