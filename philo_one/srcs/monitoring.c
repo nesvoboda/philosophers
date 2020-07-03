@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:29:49 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/18 12:18:05 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/03 13:20:55 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	*monitoring_thread(void *value)
 			proclaim_death(monitor);
 			return (NULL);
 		}
-		usleep(5000);
+		usleep(2000);
 	}
 	return (NULL);
 }
