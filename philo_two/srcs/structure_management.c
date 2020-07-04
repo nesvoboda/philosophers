@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:10:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/24 16:26:14 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/04 17:55:11 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,18 @@
 
 void		init_arrays(t_briefcase *proto)
 {
-	long	*last_meal;
-	int		*meal_counts;
 	int		i;
 
-	last_meal = malloc(sizeof(long) * proto->total);
-	meal_counts = malloc(sizeof(int) * proto->total);
-	last_meal[0] = get_time();
+	proto->lastmeal = malloc(sizeof(long) * proto->total);
+	proto->meal_counts = malloc(sizeof(int) * proto->total);
+	proto->lastmeal[0] = get_time();
 	i = 0;
 	while (i < proto->total)
 	{
-		last_meal[i] = last_meal[0];
-		meal_counts[i] = 0;
+		proto->lastmeal[i] = proto->lastmeal[0];
+		proto->meal_counts[i] = 0;
 		i++;
 	}
-	proto->lastmeal = last_meal;
-	proto->meal_counts = meal_counts;
 }
 
 /*
@@ -94,7 +90,6 @@ int			init_semaphores(t_briefcase *proto)
 {
 	int		i;
 	char	name[12];
-	sem_t	*sem;
 
 	i = 0;
 	proto->print = new_semaphore("print", 1);
@@ -104,10 +99,8 @@ int			init_semaphores(t_briefcase *proto)
 	while (i < proto->total)
 	{
 		print_long((unsigned long)i, &name[1]);
-		sem = new_semaphore(name, 1);
-		if (sem != SEM_FAILED)
-			proto->protectors[i] = sem;
-		else
+		proto->protectors[i] = new_semaphore(name, 1);
+		if (proto->protectors[i] == SEM_FAILED)
 			return (-1);
 		i++;
 	}

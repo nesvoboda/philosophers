@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/30 17:46:48 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/04 17:59:25 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,12 @@ void	destroy_semaphores(t_briefcase info)
 	}
 }
 
+int		liberate(pthread_t **monitors)
+{
+	free(monitors);
+	return (0);
+}
+
 int		threading(t_briefcase proto, t_briefcase **briefcases)
 {
 	pthread_t **monitors;
@@ -75,6 +81,6 @@ int		threading(t_briefcase proto, t_briefcase **briefcases)
 	wait_children(&proto);
 	kill_all_processes(proto.total, proto.processes);
 	destroy_semaphores(proto);
-	exit(0);
+	exit(liberate(monitors));
 	return (0);
 }

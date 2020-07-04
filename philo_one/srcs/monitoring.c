@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:29:49 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/03 13:20:55 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/04 19:04:26 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	proclaim_death(t_briefcase *monitor)
 {
 	if (*(monitor->death_flag) == -1)
 	{
-		print_state("died", monitor->number, monitor->print,
+		print_state("died", monitor->number + 1, monitor->print,
 					monitor->death_flag);
 		pthread_mutex_lock(monitor->print);
 		*(monitor->death_flag) = monitor->number;

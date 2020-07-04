@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/03 14:16:56 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/04 19:03:27 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,20 @@ int		check_exit_conditions(t_briefcase proto, int death_flag)
 	return (0);
 }
 
+int		liberate(pthread_t *thread_group, pthread_t *monitoring_threads,
+					t_briefcase **briefcases)
+{
+	int	i;
+	int	total;
+
+	i = 0;
+	total = briefcases[0]->total;
+	free(thread_group);
+	free(monitoring_threads);
+	free(briefcases);
+	return (0);
+}
+
 int		threading(t_briefcase proto)
 {
 	int			death_flag;
@@ -78,8 +92,8 @@ int		threading(t_briefcase proto)
 	while (1)
 	{
 		if (check_exit_conditions(proto, death_flag))
-			return (0);
-		usleep(50000);
+			return (liberate(thread_group, monitoring_threads, briefcases));
+		usleep(700);
 	}
-	return (0);
+	return (liberate(thread_group, monitoring_threads, briefcases));
 }

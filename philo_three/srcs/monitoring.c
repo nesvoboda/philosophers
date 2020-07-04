@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:29:49 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/29 13:02:52 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/04 18:24:23 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 void	proclaim_death(t_briefcase *monitor)
 {
-	print_state("died", monitor->number, monitor->print);
+	print_state("died", monitor->number + 1, monitor->print);
 	sem_wait(monitor->print);
 	exit(0);
 }

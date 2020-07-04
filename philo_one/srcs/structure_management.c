@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:10:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/18 12:19:34 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/04 16:55:28 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,25 +66,19 @@ t_briefcase	*give_briefcase(int number, t_briefcase proto)
 
 void		init_mutexes(t_briefcase *proto)
 {
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	*protectors;
-	pthread_mutex_t	*mtx;
 	int				i;
 
 	i = 0;
-	mtx = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(mtx, NULL);
-	proto->print = mtx;
-	forks = malloc(sizeof(pthread_mutex_t) * (proto->total));
-	protectors = malloc(sizeof(pthread_mutex_t) * (proto->total));
+	proto->print = malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(proto->print, NULL);
 	proto->forks = malloc(sizeof(pthread_mutex_t*) * (proto->total));
 	proto->protectors = malloc(sizeof(pthread_mutex_t*) * (proto->total));
 	while (i < proto->total)
 	{
-		pthread_mutex_init(&forks[i], NULL);
-		pthread_mutex_init(&protectors[i], NULL);
-		proto->forks[i] = &forks[i];
-		proto->protectors[i] = &protectors[i];
+		proto->forks[i] = malloc(sizeof(pthread_mutex_t));
+		proto->protectors[i] = malloc(sizeof(pthread_mutex_t));
+		pthread_mutex_init(proto->forks[i], NULL);
+		pthread_mutex_init(proto->protectors[i], NULL);
 		i++;
 	}
 }

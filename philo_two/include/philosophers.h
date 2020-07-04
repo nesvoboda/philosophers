@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/07 18:02:25 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/04 14:37:17 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/04 17:57:02 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ void			init_threads(t_briefcase proto, pthread_t *thread_group,
 		pthread_t *monitoring_threads, t_briefcase **briefcases);
 int				check_exit_conditions(t_briefcase proto, int death_flag);
 int				threading (t_briefcase proto);
+int				liberate(pthread_t *thread_group, pthread_t *monitoring_threads,
+	t_briefcase **briefcases);
 
 /*
 ** print_long.c — a function that writes a long to a given character buffer.
