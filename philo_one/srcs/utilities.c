@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:14:20 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/18 12:31:46 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/04 14:31:26 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,9 @@ void	print_state(char *state, int number, pthread_mutex_t *print_mutex,
 	pthread_mutex_lock(print_mutex);
 	ft_putstr(buffer);
 	pthread_mutex_unlock(print_mutex);
+}
+
+void	ft_puterr(char *str)
+{
+	write(2, str, ft_strlen(str));
 }

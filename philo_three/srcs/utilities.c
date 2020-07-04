@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:14:20 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/24 16:21:22 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/04 14:40:07 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,9 @@ void	print_state(char *state, int number, sem_t *print)
 	sem_wait(print);
 	ft_putstr(buffer);
 	sem_post(print);
+}
+
+void	ft_puterr(char *str)
+{
+	write(2, str, ft_strlen(str));
 }

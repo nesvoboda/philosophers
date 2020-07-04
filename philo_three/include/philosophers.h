@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/07 18:02:25 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/30 17:46:16 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/04 14:40:20 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int				init_semaphores(t_briefcase *proto);
 
 long			get_time(void);
 void			print_state(char *state, int number, sem_t *print);
+void			ft_puterr(char *str);
 
 /*
 ** philosopher.c — fuctions that implement the functionality of a philosopher.
