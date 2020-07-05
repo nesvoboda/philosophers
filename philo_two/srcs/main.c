@@ -6,16 +6,37 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/06 17:04:19 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/04 14:36:51 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/05 16:20:25 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
+int check_argument(char *argument)
+{
+	int i;
+
+	i = 0;
+	while (argument[i])
+	{
+		if (!(argument[i] >= '0' && argument[i] <= '9') && ((i > 0) || 
+			(i == 0 && argument[i] != '+' && argument[i] != '-')))
+			return (-1);
+		i++;
+	}
+	return (0);
+}
+
 int	set_parameters(int ac, char **av, t_briefcase *proto)
 {
+	int i;
+
 	if (ac < 5 || ac > 6)
 		return (-1);
+	i = 1;
+	while (i < ac)
+		if (check_argument(av[i++]))
+			return (-1);
 	proto->total = ft_atoi(av[1]);
 	proto->time_to_die = ft_atoi(av[2]);
 	proto->time_to_eat = ft_atoi(av[3]);
