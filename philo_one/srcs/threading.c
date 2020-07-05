@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/04 19:03:27 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/05 14:25:20 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int		threading(t_briefcase proto)
 	{
 		if (check_exit_conditions(proto, death_flag))
 			return (liberate(thread_group, monitoring_threads, briefcases));
-		usleep(700);
+		usleep(50000);
 	}
 	return (liberate(thread_group, monitoring_threads, briefcases));
 }

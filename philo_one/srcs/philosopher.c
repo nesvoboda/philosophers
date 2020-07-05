@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:23:59 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/04 18:41:29 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/05 14:25:58 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ void	eat(t_briefcase *info)
 	pthread_mutex_lock(info->protectors[number]);
 	info->lastmeal[number] = get_time();
 	print_state("is eating", number + 1, info->print, info->death_flag);
-	info->meal_counts[number] += 1;
 	usleep(info->time_to_eat * 1000);
 	pthread_mutex_unlock(info->protectors[number]);
 	pthread_mutex_unlock(info->forks[right]);
 	pthread_mutex_unlock(info->forks[left]);
+	info->meal_counts[number] += 1;
 }
 
 void	*philosopher(void *value)
