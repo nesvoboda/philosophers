@@ -63,8 +63,27 @@ int		check_exit_conditions(t_briefcase proto, int death_flag)
 int		liberate(pthread_t *thread_group, pthread_t *monitoring_threads,
 					t_briefcase **briefcases)
 {
+	int total;
+
+	printf("Liberate\n");
+	total = briefcases[0]->total;
 	free(thread_group);
 	free(monitoring_threads);
+	free(briefcases[0]->lastmeal);
+	free(briefcases[0]->meal_counts);
+	free(briefcases[0]->print);
+	for (int i = 0; i < total; i++)
+	{
+		free(briefcases[0]->forks[i]);
+		free(briefcases[0]->protectors[i]);
+	}
+	free(briefcases[0]->forks);
+	free(briefcases[0]->protectors);
+	for (int i = 0; i < total; i++)
+	{
+		
+		free(briefcases[i]);
+	}
 	free(briefcases);
 	return (0);
 }
