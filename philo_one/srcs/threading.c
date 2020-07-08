@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/04 19:03:27 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/08 15:39:30 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,19 @@ int		threading(t_briefcase proto)
 	thread_group = malloc(sizeof(pthread_t) * proto.total);
 	monitoring_threads = malloc(sizeof(pthread_t) * proto.total);
 	init_threads(proto, thread_group, monitoring_threads, briefcases);
-	while (1)
+	// while (1)
+	// {
+	// 	if (check_exit_conditions(proto, death_flag))
+	// 		return (liberate(thread_group, monitoring_threads, briefcases));
+	// 	usleep(700);
+	// }
+	for (int i = 0; i < proto.total; i++)
 	{
-		if (check_exit_conditions(proto, death_flag))
-			return (liberate(thread_group, monitoring_threads, briefcases));
-		usleep(700);
+		pthread_join(thread_group[i], NULL);
+	}
+	for (int i = 0; i < proto.total; i++)
+	{
+		pthread_join(monitoring_threads[i], NULL);
 	}
 	return (liberate(thread_group, monitoring_threads, briefcases));
 }

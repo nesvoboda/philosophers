@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:14:20 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/04 14:31:26 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/08 15:50:33 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	print_state(char *state, int number, pthread_mutex_t *print_mutex,
 	char	buffer[50];
 	int		position;
 
-	if (*death_flag != -1)
+	if (*death_flag != -1 && !(*death_flag == number - 1 && state[0] == 'd'))
 		return ;
 	memset(buffer, 0, 50);
 	timev = get_time() - g_time_start;
