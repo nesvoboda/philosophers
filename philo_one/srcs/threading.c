@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/08 15:39:30 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/08 16:12:15 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,6 @@ int		check_exit_conditions(t_briefcase proto, int death_flag)
 int		liberate(pthread_t *thread_group, pthread_t *monitoring_threads,
 					t_briefcase **briefcases)
 {
-	int	i;
-	int	total;
-
-	i = 0;
-	total = briefcases[0]->total;
 	free(thread_group);
 	free(monitoring_threads);
 	free(briefcases);

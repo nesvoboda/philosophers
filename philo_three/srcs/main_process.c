@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/29 12:58:17 by ashishae          #+#    #+#             */
-/*   Updated: 2020/06/30 17:46:33 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/05 14:01:25 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,6 @@ void	wait_children(t_briefcase *proto)
 			free(finished);
 			return ;
 		}
-		usleep(50);
+		usleep(700);
 	}
 }

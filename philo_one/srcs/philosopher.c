@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:23:59 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/08 15:43:44 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/08 16:12:01 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	eat(t_briefcase *info)
 	pthread_mutex_unlock(info->protectors[number]);
 	pthread_mutex_unlock(info->forks[right]);
 	pthread_mutex_unlock(info->forks[left]);
+	info->meal_counts[number] += 1;
 }
 
 void	*philosopher(void *value)
