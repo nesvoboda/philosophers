@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:23:59 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/08 16:12:01 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/08 16:31:42 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	*philosopher(void *value)
 	t_briefcase *info;
 
 	info = value;
-	while (1)
+	while (*info->death_flag == -1)
 	{
 		eat(info);
 		print_state("is sleeping", info->number + 1,
@@ -53,6 +53,5 @@ void	*philosopher(void *value)
 		print_state("is thinking", info->number + 1,
 			info->print, info->death_flag);
 	}
-	// printf("philosopher %d exits\n", info->number);
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:29:49 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/08 15:50:48 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/08 16:30:54 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ void	proclaim_death(t_briefcase *monitor)
 		*(monitor->death_flag) = monitor->number;
 		print_state("died", monitor->number + 1, monitor->print,
 					monitor->death_flag);
-		// pthread_mutex_lock(monitor->print);
-		
 	}
 }
 
@@ -64,6 +62,5 @@ void	*monitoring_thread(void *value)
 		}
 		usleep(2000);
 	}
-	// printf("Monitor %d exits\n", monitor->number);
 	return (NULL);
 }

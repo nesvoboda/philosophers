@@ -6,20 +6,20 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/06 17:04:19 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/05 16:20:25 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/08 16:30:43 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-int check_argument(char *argument)
+int	check_argument(char *argument)
 {
 	int i;
 
 	i = 0;
 	while (argument[i])
 	{
-		if (!(argument[i] >= '0' && argument[i] <= '9') && ((i > 0) || 
+		if (!(argument[i] >= '0' && argument[i] <= '9') && ((i > 0) ||
 			(i == 0 && argument[i] != '+' && argument[i] != '-')))
 			return (-1);
 		i++;
