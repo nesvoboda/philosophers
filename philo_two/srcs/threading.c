@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/05 14:01:10 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/08 16:35:03 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,19 @@ int		liberate(pthread_t *thread_group, pthread_t *monitoring_threads,
 	return (0);
 }
 
+void	wait_children(pthread_t *thread_group, pthread_t *monitoring_threads,
+						int total)
+{
+	int	i;
+
+	i = 0;
+	while (i < total)
+		pthread_join(monitoring_threads[i++], NULL);
+	i = 0;
+	while (i < total)
+		pthread_join(thread_group[i++], NULL);
+}
+
 int		threading(t_briefcase proto)
 {
 	int			death_flag;
@@ -121,11 +134,6 @@ int		threading(t_briefcase proto)
 	thread_group = malloc(sizeof(pthread_t) * proto.total);
 	monitoring_threads = malloc(sizeof(pthread_t) * proto.total);
 	init_threads(proto, thread_group, monitoring_threads, briefcases);
-	while (1)
-	{
-		if (check_exit_conditions(proto, death_flag))
-			return (liberate(thread_group, monitoring_threads, briefcases));
-		usleep(700);
-	}
+	wait_children(thread_group, monitoring_threads, proto.total);
 	return (liberate(thread_group, monitoring_threads, briefcases));
 }

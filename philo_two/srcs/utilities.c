@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:14:20 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/04 14:39:06 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/08 16:37:22 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,14 @@ long	get_time(void)
 ** We don't need more than 50 characters for printing out the status message.
 */
 
-void	print_state(char *state, int number, sem_t *print)
+void	print_state(char *state, int number, sem_t *print, int *death_flag)
 {
 	long	timev;
 	char	buffer[50];
 	int		position;
 
+	if (*death_flag != -1 && !(*death_flag == number - 1 && state[0] == 'd'))
+		return ;
 	memset(buffer, 0, 50);
 	timev = get_time() - g_time_start;
 	position = print_long((unsigned long)timev, buffer);

@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/07 18:02:25 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/04 17:57:02 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/08 16:37:43 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ int				init_semaphores(t_briefcase *proto);
 */
 
 long			get_time(void);
-void			print_state(char *state, int number, sem_t *print);
+void			print_state(char *state, int number, sem_t *print,
+					int *death_flag);
 void			ft_puterr(char *str);
 
 /*
