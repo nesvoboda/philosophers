@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/09 18:27:38 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/09 18:30:22 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,7 @@ void	*init_threads(t_briefcase *proto, t_briefcase **briefcases)
 		pid = fork();
 		if (pid == 0)
 		{
-			// monitors[i] = malloc(sizeof(pthread_t));
-			pthread_create(&monitor, NULL, monitoring_thread,
-				briefcases[i]);
+			pthread_create(&monitor, NULL, monitoring_thread, briefcases[i]);
 			pthread_detach(monitor);
 			philosopher(briefcases[i]);
 			exit(0);
@@ -87,9 +85,6 @@ int		liberate(t_briefcase **briefcases, int total)
 
 int		threading(t_briefcase proto, t_briefcase **briefcases)
 {
-	// pthread_t **monitors;
-
-	// monitors = malloc(sizeof(pthread_t) * proto.total);
 	if (init_semaphores(&proto) == -1)
 		return (-1);
 	init_variables(&proto);
