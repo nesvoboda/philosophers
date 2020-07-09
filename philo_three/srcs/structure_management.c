@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:10:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/09 16:24:46 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/09 18:13:08 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ sem_t		*new_semaphore(char *name, int value)
 	sem_t	*result;
 	int		errno;
 
+	result = NULL;
 	result = sem_open(name, O_CREAT | O_EXCL, S_IRWXU, value);
 	if (result == SEM_FAILED && errno == EEXIST)
 	{
