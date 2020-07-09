@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/07 18:02:25 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/09 16:30:21 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/09 18:09:50 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,7 @@ void			*monitoring_thread(void *value);
 ** threading.c — fuctions that start and control threads.
 */
 
-void			*init_threads(t_briefcase *proto, t_briefcase **briefcases,
-					pthread_t **monitors);
+void			*init_threads(t_briefcase *proto, t_briefcase **briefcases);
 int				threading (t_briefcase proto, t_briefcase **briefcases);
 void			kill_all_processes(int total, pid_t *processes);
 

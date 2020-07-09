@@ -6,17 +6,17 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/09 18:05:57 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/09 18:10:19 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-void	*init_threads(t_briefcase *proto, t_briefcase **briefcases,
-			pthread_t **monitors)
+void	*init_threads(t_briefcase *proto, t_briefcase **briefcases)
 {
 	int			i;
 	pid_t		pid;
+	pthread_t	monitor;
 
 	i = 0;
 	while (i < proto->total)
@@ -30,8 +30,8 @@ void	*init_threads(t_briefcase *proto, t_briefcase **briefcases,
 		pid = fork();
 		if (pid == 0)
 		{
-			monitors[i] = malloc(sizeof(pthread_t));
-			pthread_create(monitors[i], NULL, monitoring_thread,
+			// monitors[i] = malloc(sizeof(pthread_t));
+			pthread_create(&monitor, NULL, monitoring_thread,
 				briefcases[i]);
 			philosopher(briefcases[i]);
 			exit(0);
@@ -63,7 +63,7 @@ void	destroy_semaphores(t_briefcase info)
 	}
 }
 
-int		liberate(pthread_t **monitors, t_briefcase **briefcases, int total)
+int		liberate(t_briefcase **briefcases, int total)
 {
 	int i;
 
@@ -72,27 +72,27 @@ int		liberate(pthread_t **monitors, t_briefcase **briefcases, int total)
 	while (i < total)
 	{
 		free(briefcases[i]);
-		free(monitors[i]);
+		// free(monitors[i]);
 		i++;
 	}
 	free(briefcases);
-	free(monitors);
+	// free(monitors);
 	return (0);
 }
 
 int		threading(t_briefcase proto, t_briefcase **briefcases)
 {
-	pthread_t **monitors;
+	// pthread_t **monitors;
 
-	monitors = malloc(sizeof(pthread_t) * proto.total);
+	// monitors = malloc(sizeof(pthread_t) * proto.total);
 	if (init_semaphores(&proto) == -1)
 		return (-1);
 	init_variables(&proto);
 	briefcases = malloc(sizeof(t_briefcase *) * proto.total);
-	init_threads(&proto, briefcases, monitors);
+	init_threads(&proto, briefcases);
 	wait_children(&proto);
 	kill_all_processes(proto.total, proto.processes);
 	destroy_semaphores(proto);
-	exit(liberate(monitors, briefcases, proto.total));
+	exit(liberate(briefcases, proto.total));
 	return (0);
 }
