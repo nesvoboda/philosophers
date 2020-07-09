@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/07 18:02:25 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/04 18:07:38 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/09 16:30:21 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct	s_briefcase
 	sem_t			**protectors;
 	sem_t			*print;
 	sem_t			*fork_semaphore;
+	sem_t			*finish;
 	pid_t			*processes;
 	long			last_meal;
 	int				meal_count;
@@ -128,8 +129,6 @@ size_t			ft_strlcpy(char *dst, char *src, size_t dstsize);
 */
 
 void			kill_all_processes(int total, pid_t *processes);
-int				all_finished(int *array, int total);
-int				check_exits(int *finished, t_briefcase *proto);
 void			wait_children(t_briefcase *proto);
 
 #endif

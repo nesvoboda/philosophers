@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/08 16:35:03 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/09 16:08:07 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,27 +37,6 @@ void	init_threads(t_briefcase proto, pthread_t *thread_group,
 			briefcases[i]);
 		i++;
 	}
-}
-
-int		check_exit_conditions(t_briefcase proto, int death_flag)
-{
-	int i;
-
-	i = 0;
-	if (death_flag != -1)
-		return (1);
-	if (proto.eat_target > 0)
-	{
-		while (i < proto.total)
-		{
-			if (proto.meal_counts[i] < proto.eat_target)
-				break ;
-			i++;
-		}
-		if (i == proto.total)
-			return (1);
-	}
-	return (0);
 }
 
 /*
