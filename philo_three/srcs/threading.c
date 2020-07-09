@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/09 17:57:14 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/09 18:00:46 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	*init_threads(t_briefcase *proto, t_briefcase **briefcases,
 			pthread_create(monitors[i], NULL, monitoring_thread,
 				briefcases[i]);
 			philosopher(briefcases[i]);
+			exit(0);
 		}
 		proto->processes[i] = pid;
 		i++;
@@ -62,13 +63,11 @@ void	destroy_semaphores(t_briefcase info)
 	}
 }
 
-int		liberate(pthread_t **monitors, t_briefcase **briefcases)
+int		liberate(pthread_t **monitors, t_briefcase **briefcases, int total)
 {
 	int i;
-	int total;
 
 	i = 0;
-	total = briefcases[0]->total;
 	while (i < total)
 	{
 		free(briefcases[i]);
@@ -93,6 +92,6 @@ int		threading(t_briefcase proto, t_briefcase **briefcases)
 	wait_children(&proto);
 	kill_all_processes(proto.total, proto.processes);
 	destroy_semaphores(proto);
-	exit(liberate(monitors, briefcases));
+	exit(liberate(monitors, briefcases, proto.total));
 	return (0);
 }
