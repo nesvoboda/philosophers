@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/09 18:10:19 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/09 18:11:54 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	*init_threads(t_briefcase *proto, t_briefcase **briefcases)
 			// monitors[i] = malloc(sizeof(pthread_t));
 			pthread_create(&monitor, NULL, monitoring_thread,
 				briefcases[i]);
+			pthread_detach(monitor);
 			philosopher(briefcases[i]);
 			exit(0);
 		}
