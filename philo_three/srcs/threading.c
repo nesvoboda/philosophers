@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/09 17:51:28 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/09 17:56:08 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,14 @@ void	destroy_semaphores(t_briefcase info)
 
 int		liberate(pthread_t **monitors, t_briefcase **briefcases)
 {
+	int i;
+	int total;
+
+	i = 0;
+	total = briefcases[0]->total;
 	free(monitors);
+	while (i < total)
+		free(briefcases[i++]);
 	free(briefcases);
 	return (0);
 }
