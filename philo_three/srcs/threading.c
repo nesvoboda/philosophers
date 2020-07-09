@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/09 18:26:28 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/09 18:27:38 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,13 @@ int		liberate(t_briefcase **briefcases, int total)
 
 	i = 0;
 	free(briefcases[0]->protectors);
+	free(briefcases[0]->processes);
 	while (i < total)
 	{
 		free(briefcases[i]);
-		// free(monitors[i]);
 		i++;
 	}
 	free(briefcases);
-	// free(monitors);
 	return (0);
 }
 
