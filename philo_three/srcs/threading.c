@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/04 17:59:25 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/08 18:58:28 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ void	*init_threads(t_briefcase *proto, t_briefcase **briefcases,
 			monitors[i] = malloc(sizeof(pthread_t));
 			pthread_create(monitors[i], NULL, monitoring_thread,
 				briefcases[i]);
+			pthread_detach(*(monitors[i]));
 			philosopher(briefcases[i]);
+			printf("IM NOT DEAD\n");
 		}
 		proto->processes[i] = pid;
 		i++;

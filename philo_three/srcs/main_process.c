@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/29 12:58:17 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/05 14:01:25 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/08 18:52:25 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	kill_all_processes(int total, pid_t *processes)
 	i = 0;
 	while (i < total)
 	{
-		kill(processes[i], SIGKILL);
+		kill(processes[i], SIGTERM);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:10:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/04 16:55:28 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/09 15:15:16 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_briefcase	*give_briefcase(int number, t_briefcase proto)
 	new_briefcase->time_to_sleep = proto.time_to_sleep;
 	new_briefcase->time_to_eat = proto.time_to_eat;
 	new_briefcase->time_to_die = proto.time_to_die;
+	new_briefcase->eat_target = proto.eat_target;
 	new_briefcase->total = proto.total;
 	new_briefcase->forks = proto.forks;
 	new_briefcase->lastmeal = proto.lastmeal;

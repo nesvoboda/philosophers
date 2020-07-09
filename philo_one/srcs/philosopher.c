@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:23:59 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/08 16:31:42 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/09 15:18:45 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	eat(t_briefcase *info)
 	pthread_mutex_lock(info->protectors[number]);
 	info->lastmeal[number] = get_time();
 	print_state("is eating", number + 1, info->print, info->death_flag);
-	info->meal_counts[number] += 1;
 	if (*(info->death_flag) == -1)
 		usleep(info->time_to_eat * 1000);
 	pthread_mutex_unlock(info->protectors[number]);

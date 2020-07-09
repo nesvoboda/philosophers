@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:29:49 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/08 16:40:38 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/09 15:15:28 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,21 @@ void	proclaim_death(t_briefcase *monitor)
 		*(monitor->death_flag) = monitor->number;
 		print_state("died", monitor->number + 1, monitor->print,
 						monitor->death_flag);
-		// sem_wait(monitor->print);
 	}
+}
+
+int		all_done(t_briefcase *monitor)
+{
+	int i;
+
+	i = 0;
+	while (i < monitor->total)
+	{
+		if (monitor->meal_counts[i] < monitor->eat_target)
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 /*
@@ -60,6 +73,11 @@ void	*monitoring_thread(void *value)
 		{
 			proclaim_death(monitor);
 			break ;
+		}
+		if (monitor->eat_target != -1 && all_done(monitor) == 1)
+		{
+			*(monitor->death_flag) = 42;
+			return (NULL);
 		}
 		usleep(2000);
 	}
