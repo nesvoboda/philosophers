@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/09 16:08:07 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/11 16:22:06 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,9 @@ int		liberate(pthread_t *thread_group, pthread_t *monitoring_threads,
 	int	total;
 
 	i = 0;
-	destroy_semaphores(*briefcases[0]);
 	total = briefcases[0]->total;
+	if (total != 1)
+		destroy_semaphores(*briefcases[0]);
 	free(thread_group);
 	free(monitoring_threads);
 	free(briefcases[0]->lastmeal);
@@ -93,6 +94,8 @@ void	wait_children(pthread_t *thread_group, pthread_t *monitoring_threads,
 	while (i < total)
 		pthread_join(monitoring_threads[i++], NULL);
 	i = 0;
+	if (total == 1)
+		return ;
 	while (i < total)
 		pthread_join(thread_group[i++], NULL);
 }

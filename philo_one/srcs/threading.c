@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/08 16:29:57 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/11 16:20:58 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ void	wait_children(pthread_t *thread_group, pthread_t *monitoring_threads,
 	while (i < total)
 		pthread_join(monitoring_threads[i++], NULL);
 	i = 0;
+	if (total == 1)
+		return ;
 	while (i < total)
 		pthread_join(thread_group[i++], NULL);
 }
