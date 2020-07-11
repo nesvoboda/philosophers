@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/07 18:02:25 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/09 18:09:50 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/11 18:15:15 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct	s_briefcase
 	sem_t			*fork_semaphore;
 	sem_t			*finish;
 	pid_t			*processes;
+	int				death_flag;
 	long			last_meal;
 	int				meal_count;
 }				t_briefcase;
@@ -90,6 +91,7 @@ int				init_semaphores(t_briefcase *proto);
 
 long			get_time(void);
 void			print_state(char *state, int number, sem_t *print);
+void			rogue_print_state(char *state, int number);
 void			ft_puterr(char *str);
 
 /*

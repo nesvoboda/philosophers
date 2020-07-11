@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:14:20 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/04 14:40:07 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/11 18:15:07 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,24 @@ void	print_state(char *state, int number, sem_t *print)
 	sem_wait(print);
 	ft_putstr(buffer);
 	sem_post(print);
+}
+
+void	rogue_print_state(char *state, int number)
+{
+	long	timev;
+	char	buffer[50];
+	int		position;
+
+	memset(buffer, 0, 50);
+	timev = get_time() - g_time_start;
+	position = print_long((unsigned long)timev, buffer);
+	buffer[position] = ' ';
+	position += print_long((unsigned long)number, &buffer[position + 1]) + 1;
+	buffer[position] = ' ';
+	position += ft_strlcpy(&buffer[position + 1],
+		state, ft_strlen(state) + 1) + 1;
+	buffer[position] = '\n';
+	ft_putstr(buffer);
 }
 
 void	ft_puterr(char *str)

@@ -6,24 +6,11 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:29:49 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/09 16:36:27 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/11 18:31:21 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
-
-/*
-** proclaim_death prints out a status message about the death of the
-** philosopher the current threads monitors. Then it posts to the print
-** semaphore (to prevent other threads from printing other status messages).
-*/
-
-void	proclaim_death(t_briefcase *monitor)
-{
-	sem_wait(monitor->finish);
-	print_state("died", monitor->number + 1, monitor->print);
-	exit(0);
-}
 
 /*
 ** monitoring_thread is the function that is run by all monitoring threads.
@@ -49,12 +36,12 @@ void	*monitoring_thread(void *value)
 		diff = now - monitor->last_meal;
 		if (diff > monitor->time_to_die)
 		{
-			proclaim_death(monitor);
+			monitor->death_flag = 0;
+			sem_wait(monitor->finish);
+			sem_wait(monitor->print);
+			rogue_print_state("died", monitor->number + 1);
 			exit(0);
 		}
-		if (monitor->eat_target > 0 &&
-				monitor->meal_count >= monitor->eat_target)
-			exit(1);
 		usleep(500);
 	}
 }

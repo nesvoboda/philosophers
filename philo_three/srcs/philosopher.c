@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:23:59 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/11 16:43:29 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/11 18:33:38 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,32 @@ void	eat(t_briefcase *info)
 	info->last_meal = get_time();
 	print_state("is eating", number + 1, info->print);
 	usleep(info->time_to_eat * 1000);
-	sem_post(info->fork_semaphore);
-	sem_post(info->fork_semaphore);
 	sem_post(info->protectors[number]);
-	info->meal_count += 1;
+	sem_post(info->fork_semaphore);
+	sem_post(info->fork_semaphore);
 }
 
 void	*philosopher(void *value)
 {
-	t_briefcase *info;
+	t_briefcase	*info;
+	int			i;
 
 	info = value;
+	i = 0;
 	while (1)
 	{
 		eat(info);
+		i += 1;
 		print_state("is sleeping", info->number + 1, info->print);
+		if (info->eat_target > 0 && i >= info->eat_target)
+		{
+			if (info->death_flag != 0)
+				exit(1);
+			else
+				exit(0);
+		}
 		usleep(info->time_to_sleep * 1000);
 		print_state("is thinking", info->number + 1, info->print);
 	}
+	return (NULL);
 }

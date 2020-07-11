@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/09 18:30:22 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/11 17:40:32 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,14 @@ void	*init_threads(t_briefcase *proto, t_briefcase **briefcases)
 		pid = fork();
 		if (pid == 0)
 		{
+			briefcases[i]->death_flag = -1;
 			pthread_create(&monitor, NULL, monitoring_thread, briefcases[i]);
-			pthread_detach(monitor);
 			philosopher(briefcases[i]);
-			exit(0);
+			exit(briefcases[i]->death_flag);
 		}
 		proto->processes[i] = pid;
 		i++;
+		usleep(100);
 	}
 	return (0);
 }
