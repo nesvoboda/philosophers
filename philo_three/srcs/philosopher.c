@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:23:59 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/09 16:10:44 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/11 16:43:29 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	eat(t_briefcase *info)
 
 	number = info->number;
 	sem_wait(info->fork_semaphore);
+	print_state("has taken a fork", number + 1, info->print);
 	sem_wait(info->fork_semaphore);
+	print_state("has taken a fork", number + 1, info->print);
 	sem_wait(info->protectors[number]);
-	print_state("has taken a fork", number + 1, info->print);
-	print_state("has taken a fork", number + 1, info->print);
 	info->last_meal = get_time();
 	print_state("is eating", number + 1, info->print);
 	usleep(info->time_to_eat * 1000);
