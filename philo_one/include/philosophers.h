@@ -6,14 +6,13 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/07 18:02:25 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/04 16:56:58 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/12 15:34:14 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
-# include <stdio.h>
 # include <pthread.h>
 # include <unistd.h>
 # include <stdlib.h>
