@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/29 12:58:17 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/11 18:29:20 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/12 15:14:10 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	wait_children(t_briefcase *proto)
 		if ((WIFEXITED(status) || WIFSIGNALED(status)))
 		{
 			temp = WEXITSTATUS(status);
-			// printf("Got exit %d\n", temp);
 			if (temp == 0)
 				return ;
 			else if (temp == 1)
