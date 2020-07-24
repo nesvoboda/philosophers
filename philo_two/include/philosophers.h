@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/07 18:02:25 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/24 14:35:42 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/24 15:03:43 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ long			get_time(void);
 void			print_state(char *state, int number, sem_t *print,
 					int *death_flag);
 void			ft_puterr(char *str);
+void			ft_sleep(int milis);
 
 /*
 ** philosopher.c — fuctions that implement the functionality of a philosopher.
