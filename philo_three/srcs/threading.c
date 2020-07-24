@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:30:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/11 17:40:32 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/24 14:36:43 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,11 @@ void	destroy_semaphores(t_briefcase info)
 	i = 0;
 	sem_close(info.print);
 	sem_close(info.fork_semaphore);
+	sem_close(info.grab_semaphore);
 	sem_close(info.finish);
 	sem_unlink("print");
 	sem_unlink("forks");
+	sem_unlink("grab");
 	sem_unlink("finish");
 	name[0] = 'p';
 	while (i < info.total)
