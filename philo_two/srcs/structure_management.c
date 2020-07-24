@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:10:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/24 14:37:06 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/24 14:45:06 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int			init_semaphores(t_briefcase *proto)
 	i = 0;
 	proto->print = new_semaphore("print", 1);
 	proto->fork_semaphore = new_semaphore("forks", proto->total);
-	proto->grab_semaphore = new_semaphore("grab", proto->total);
+	proto->grab_semaphore = new_semaphore("grab", 1);
 	proto->protectors = malloc(sizeof(sem_t *) * (proto->total));
 	name[0] = 'p';
 	while (i < proto->total)
