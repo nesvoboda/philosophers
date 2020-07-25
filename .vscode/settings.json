@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "pthread.h": "c"
-    },
-    "editor.detectIndentation": false,
-    "editor.insertSpaces": false
-}

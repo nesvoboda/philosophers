@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/07 18:02:25 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/24 15:04:04 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/25 12:45:32 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,19 @@
 # include <sys/wait.h>
 # include <errno.h>
 # include <fcntl.h>
+
+/*
+** Start_delay is a delay between the start of different philosopher threads.
+**
+** Monitoring_delay is a delay between the cycles of a monitoring thread.
+**
+** Ftsleep_delay is the value of usleep() that will be applied in a cycle
+** until a specified wait is acheived (see ft_sleep() in utilities.c)
+*/
+
+# define START_DELAY 100
+# define MONITORING_DELAY 500
+# define FTSLEEP_DELAY 500
 
 /*
 ** A 'briefcase' is a structure that contains:

@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:14:20 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/24 15:00:30 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/25 12:35:23 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,6 @@ void	ft_sleep(int milis)
 	start_time = get_time();
 	while (get_time() - start_time < milis)
 	{
-		usleep(500);
+		usleep(FTSLEEP_DELAY);
 	}
 }
