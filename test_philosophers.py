@@ -3,11 +3,13 @@ import subprocess
 from time import sleep
 from statistics import mean
 import threading
+from pathlib import Path
 
 # How many 'long' tests are needed
-N_LONG_TESTS = 1
+N_LONG_TESTS = 3
 # How many seconds must a program run uninterrupted
-LONG_TEST_LENGTH = 10
+LONG_TEST_LENGTH = 40
+
 
 # array = []
 
@@ -24,10 +26,11 @@ class bcolors:
 
 def assert_runs_for_at_least(command, seconds, binary, test_name):
     # Run a given command
-    f = open(f"{binary}_{test_name}_out.txt", "w")
+    f = open(
+        f"./test_output/{binary[binary.rfind('/'):]}_{test_name}_out.txt",
+        "w")
     process = subprocess.Popen(command, stdout=f,
                                shell=True)
-    print(f"")
     # Wait for some time
     code = process.poll()
     slept = 0
@@ -45,7 +48,7 @@ def assert_runs_for_at_least(command, seconds, binary, test_name):
         # If the process is still running, the test has passed
         process.kill()
         f.close()
-        print(f"{bcolors.OKGREEN}[{seconds} SEC] {bcolors.ENDC}", end="")
+        print(f"{bcolors.OKGREEN}[{seconds} SEC] {bcolors.ENDC}", end="", flush=True)
         return True
     # If the process isn't running anymore, the test has failed
     f.close()
@@ -71,9 +74,9 @@ def run_long_test(binary, test, test_name):
             binary,
             f"{test_name}_{i}")
         if res is False:
-            print(f"\n\n{binary} failed test {test}")
+            print(f"\n\n ❌ {binary} failed test {test}")
             return False
-    print(f"\n\n✅ Pass!\n")
+    print(f"\n\n✅  Pass!\n")
     return True
 
 
@@ -82,24 +85,24 @@ def run_starvation_measures(binary):
     for i in range(10):
         measure_starvation_timing(binary, results)
         if results[-1] > 10:
-            print(f"\n\n{binary} filed starvation test :(")
+            print(f"\n\n ❌ {binary} failed death timing test :(")
             return False
         else:
-            print(f"{bcolors.OKGREEN}[{results[-1]} MS] {bcolors.ENDC}", end="")
-    print(f"\n\n✅ average delay: {mean(results)} ms!\n\n")
+            print(f"{bcolors.OKGREEN}[{results[-1]} MS] {bcolors.ENDC}", end="", flush=True)
+    print(f"\n\n✅  Average delay: {mean(results)} ms!\n\n")
     return True
 
 
 def test_program(binary):
-    print("Section 1: Long tests.\n\n")
-    print("--- 4 410 200 200 ---")
-    if run_long_test(binary, "4 410 200 200", 'long_test_1') is False:
+    print(f"\n{bcolors.BOLD}PERFORMANCE{bcolors.ENDC}\n")
+    print(f"{bcolors.WARNING}4 410 200 200{bcolors.ENDC}     ", end="", flush=True)
+    if run_long_test(binary, "4 410 200 200", 'performance_1') is False:
         return False
-    print("--- 5 800 200 200 ---")
-    if run_long_test(binary, "5 800 200 200", 'long_test_2') is False:
+    print(f"{bcolors.WARNING}5 800 200 200{bcolors.ENDC}     ", end="", flush=True)
+    if run_long_test(binary, "5 800 200 200", 'performance_2') is False:
         return False
 
-    print("Section 2: Starvation test\n\n")
+    print(f"\n{bcolors.BOLD}DEATH TIMING{bcolors.ENDC}\n")
     if run_starvation_measures(binary) is False:
         return False
     return True
@@ -113,21 +116,30 @@ def make_all_binaries():
 if __name__ == "__main__":
     print(f"\n{bcolors.OKBLUE}-- MAKING BINARIES ---{bcolors.ENDC} \n")
     make_all_binaries()
-    print("There are two sections in the tests.")
-    print("\nSection 1: Long tests.\n\n"
+    print(f"\n{bcolors.OKBLUE}--- TEST DESCRIPTION ---{bcolors.ENDC}")
+    print(f"\n{bcolors.BOLD}PERFORMANCE.{bcolors.ENDC}\n\n"
           "In these tests, philosophers must not die.\n"
           f"We will run each of the tests {N_LONG_TESTS} times.\n"
-          "Test will pass, if your program runs for more than\n")
-    print("\nSection 2: Starvation test\n\n"
+          "Test will pass, if your program runs for more than\n"
+          f"{LONG_TEST_LENGTH} seconds every time.")
+    print(f"\n{bcolors.BOLD}DEATH TIMING{bcolors.ENDC}\n\n"
           "In this test, one philosopher must die.\n"
           "We will check the time of their death, and make sure\n"
-          "their death is showed within 10ms of their death\n"
-          f"{LONG_TEST_LENGTH} seconds every time.\n\n")
-    print(f"\n\n{bcolors.OKBLUE}-- PHILO_ONE ---{bcolors.ENDC} \n\n")
+          "their death is showed within 10ms of their death.\n\n"
+          f"{bcolors.WARNING}This test will only work if your binary prints\n"
+          f"nothing but numbers in the timestamp, followed\n"
+          f"by a whitespace, like this: 00000000045 3 died{bcolors.ENDC}")
+    print(f"\n{bcolors.FAIL}{bcolors.BOLD}WARNING: THIS TEST WILL TAKE AT LEAST\n"
+           f"{bcolors.ENDC}{bcolors.FAIL}{LONG_TEST_LENGTH * 6 * N_LONG_TESTS}"
+           " SECONDS.\n\nFAILING THIS TEST != A BAD PROJECT\n"
+           "PASSING THIS TEST != A GOOD ONE\n"
+           f"MAKE YOUR OWN DECISIONS{bcolors.ENDC}\n")
+    Path("./test_output/").mkdir(parents=True, exist_ok=True)
+    print(f"\n{bcolors.OKBLUE}---------- PHILO_ONE ----------{bcolors.ENDC}\n")
     test_program('./philo_one/philo_one')
-    print(f"\n\n{bcolors.OKBLUE}-- PHILO_TWO ---{bcolors.ENDC} \n\n")
+    print(f"\n{bcolors.OKBLUE}---------- PHILO_TWO ----------{bcolors.ENDC}\n")
     test_program('./philo_two/philo_two')
-    print(f"\n\n{bcolors.OKBLUE}-- PHILO_THREE ---{bcolors.ENDC} \n\n")
+    print(f"\n{bcolors.OKBLUE}---------- PHILO_THREE ----------{bcolors.ENDC}\n")
     test_program('./philo_three/philo_three')
 
 
