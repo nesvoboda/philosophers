@@ -4,10 +4,14 @@ from time import sleep
 from statistics import mean
 import threading
 
+import psutil
+
 # How many 'long' tests are needed
 N_LONG_TESTS = 1
 # How many seconds must a program run uninterrupted
 LONG_TEST_LENGTH = 10
+
+CPU_COUNT = psutil.cpu_count()
 
 # array = []
 
@@ -22,8 +26,19 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 
+# We consider that a CPU is overloaded if its system-wide usage
+# is > 50% or 5-minute load average divided by CPU core count
+# is more than 1.
+def cpu_overloaded():
+    if psutil.cpu_percent() > 50:
+        return True
+    if psutil.getloadavg()[1] / CPU_COUNT > 1:
+        return True
+
+
 def assert_runs_for_at_least(command, seconds, binary, test_name):
     # Run a given command
+    cpu_warning_issued = 0
     f = open(f"{binary}_{test_name}_out.txt", "w")
     process = subprocess.Popen(command, stdout=f,
                                shell=True)
@@ -34,6 +49,9 @@ def assert_runs_for_at_least(command, seconds, binary, test_name):
     while (slept < seconds):
         sleep(1)
         slept += 1
+        if not cpu_warning_issued and cpu_overloaded():
+            print(f"{bcolors.FAIL}\nCPU OVERLOADED! "
+                  f"RESULTS MAY BE WRONG!\n{bcolors.ENDC}")
         code = process.poll()
         # Exit immediately, if the process has died
         if code is not None:
@@ -85,7 +103,8 @@ def run_starvation_measures(binary):
             print(f"\n\n{binary} filed starvation test :(")
             return False
         else:
-            print(f"{bcolors.OKGREEN}[{results[-1]} MS] {bcolors.ENDC}", end="")
+            print(f"{bcolors.OKGREEN}[{results[-1]} MS] "
+                  f"{bcolors.ENDC}", end="")
     print(f"\n\n✅ average delay: {mean(results)} ms!\n\n")
     return True
 
@@ -103,6 +122,14 @@ def test_program(binary):
     if run_starvation_measures(binary) is False:
         return False
     return True
+
+
+def cpu_waning():
+    if cpu_overloaded():
+        print(f"{bcolors.FAIL}WARNING! The CPU usage is {psutil.cpu_percent()}"
+              f", 5-minute load average is {psutil.getloadavg}.\n"
+              f"The test results may be wrong! {bcolors.endc}")
+
 
 def make_all_binaries():
     subprocess.run(["make", "-C", "./philo_one/"])
@@ -124,6 +151,7 @@ if __name__ == "__main__":
           "their death is showed within 10ms of their death\n"
           f"{LONG_TEST_LENGTH} seconds every time.\n\n")
     print(f"\n\n{bcolors.OKBLUE}-- PHILO_ONE ---{bcolors.ENDC} \n\n")
+
     test_program('./philo_one/philo_one')
     print(f"\n\n{bcolors.OKBLUE}-- PHILO_TWO ---{bcolors.ENDC} \n\n")
     test_program('./philo_two/philo_two')
