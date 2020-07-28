@@ -5,11 +5,15 @@ from statistics import mean
 import threading
 from pathlib import Path
 
+import psutil
+
 # How many 'long' tests are needed
 N_LONG_TESTS = 3
 # How many seconds must a program run uninterrupted
 LONG_TEST_LENGTH = 40
 
+
+CPU_COUNT = psutil.cpu_count()
 
 # array = []
 
@@ -24,11 +28,27 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 
+# We consider that a CPU is overloaded if its system-wide usage
+# is > 50% or 5-minute load average divided by CPU core count
+# is more than 1.
+def cpu_overloaded():
+    if psutil.cpu_percent() > 50:
+        return True
+    if psutil.getloadavg()[1] / CPU_COUNT > 1:
+        return True
+
+
+def terminate_three(binary):
+    if 'philo_three' in binary:
+        subprocess.run(['killall', 'philo_three'])
+
+
 def assert_runs_for_at_least(command, seconds, binary, test_name):
     # Run a given command
     f = open(
         f"./test_output/{binary[binary.rfind('/'):]}_{test_name}_out.txt",
         "w")
+    cpu_warning_issued = 0
     process = subprocess.Popen(command, stdout=f,
                                shell=True)
     # Wait for some time
@@ -37,10 +57,15 @@ def assert_runs_for_at_least(command, seconds, binary, test_name):
     while (slept < seconds):
         sleep(1)
         slept += 1
+        if not cpu_warning_issued and cpu_overloaded():
+            print(f"{bcolors.FAIL}\nCPU OVERLOADED! "
+                  f"RESULTS MAY BE WRONG!\n{bcolors.ENDC}")
+            cpu_warning_issued = True
         code = process.poll()
         # Exit immediately, if the process has died
         if code is not None:
             f.close()
+            terminate_three(binary)
             return False
 
     code = process.poll()
@@ -49,21 +74,25 @@ def assert_runs_for_at_least(command, seconds, binary, test_name):
         process.kill()
         f.close()
         print(f"{bcolors.OKGREEN}[{seconds} SEC] {bcolors.ENDC}", end="", flush=True)
+        terminate_three(binary)
         return True
     # If the process isn't running anymore, the test has failed
     f.close()
+    terminate_three(binary)
     return False
 
 
 def measure_starvation_timing(binary, array):
     # Run a philosopher binary with deadly parameters
     data = subprocess.getoutput(f"{binary} 3 310 200 100")
+    
     # Get the time of death
     last_line = data[data.rfind('\n') + 1:]
     death_time = int(last_line[:last_line.find(' ')])
     result = death_time - 310
     # Append the delay to the array of results
     array.append(result)
+    terminate_three(binary)
 
 
 def run_long_test(binary, test, test_name):
@@ -88,24 +117,37 @@ def run_starvation_measures(binary):
             print(f"\n\n ❌ {binary} failed death timing test :(")
             return False
         else:
-            print(f"{bcolors.OKGREEN}[{results[-1]} MS] {bcolors.ENDC}", end="", flush=True)
+            print(f"{bcolors.OKGREEN}[{results[-1]} MS] "
+                  f"{bcolors.ENDC}", end="")
     print(f"\n\n✅  Average delay: {mean(results)} ms!\n\n")
     return True
 
 
 def test_program(binary):
     print(f"\n{bcolors.BOLD}PERFORMANCE{bcolors.ENDC}\n")
+    is_three = 'philo_three' in binary
+    if is_three:
+        print(f"{bcolors.WARNING}WARNING: for philo_three, we will have to run\n"
+                "'killall philo_three' after each run. It may stop other running\n"
+                f"instances of this program.{bcolors.ENDC}")
     print(f"{bcolors.WARNING}4 410 200 200{bcolors.ENDC}     ", end="", flush=True)
     if run_long_test(binary, "4 410 200 200", 'performance_1') is False:
         return False
     print(f"{bcolors.WARNING}5 800 200 200{bcolors.ENDC}     ", end="", flush=True)
     if run_long_test(binary, "5 800 200 200", 'performance_2') is False:
         return False
-
     print(f"\n{bcolors.BOLD}DEATH TIMING{bcolors.ENDC}\n")
     if run_starvation_measures(binary) is False:
         return False
     return True
+
+
+def cpu_waning():
+    if cpu_overloaded():
+        print(f"{bcolors.FAIL}WARNING! The CPU usage is {psutil.cpu_percent()}"
+              f", 5-minute load average is {psutil.getloadavg}.\n"
+              f"The test results may be wrong! {bcolors.endc}")
+
 
 def make_all_binaries():
     subprocess.run(["make", "-C", "./philo_one/"])
