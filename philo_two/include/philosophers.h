@@ -13,7 +13,6 @@
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
-# include <stdio.h>
 # include <pthread.h>
 # include <unistd.h>
 # include <stdlib.h>

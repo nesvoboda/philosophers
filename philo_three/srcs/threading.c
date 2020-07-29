@@ -33,7 +33,6 @@ void	*init_threads(t_briefcase *proto, t_briefcase **briefcases)
 			briefcases[i]->death_flag = -1;
 			pthread_create(&monitor, NULL, monitoring_thread, briefcases[i]);
 			philosopher(briefcases[i]);
-			exit(briefcases[i]->death_flag);
 		}
 		proto->processes[i] = pid;
 		i++;
