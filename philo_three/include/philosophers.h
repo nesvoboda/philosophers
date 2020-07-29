@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/07 18:02:25 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/12 15:34:32 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/25 12:45:32 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,19 @@
 # include <sys/wait.h>
 # include <errno.h>
 # include <fcntl.h>
+
+/*
+** Start_delay is a delay between the start of different philosopher threads.
+**
+** Monitoring_delay is a delay between the cycles of a monitoring thread.
+**
+** Ftsleep_delay is the value of usleep() that will be applied in a cycle
+** until a specified wait is acheived (see ft_sleep() in utilities.c)
+*/
+
+# define START_DELAY 100
+# define MONITORING_DELAY 500
+# define FTSLEEP_DELAY 500
 
 /*
 ** A 'briefcase' is a structure that contains:
@@ -46,6 +59,7 @@ typedef struct	s_briefcase
 	sem_t			**protectors;
 	sem_t			*print;
 	sem_t			*fork_semaphore;
+	sem_t			*grab_semaphore;
 	sem_t			*finish;
 	pid_t			*processes;
 	int				death_flag;
@@ -92,6 +106,7 @@ long			get_time(void);
 void			print_state(char *state, int number, sem_t *print);
 void			rogue_print_state(char *state, int number);
 void			ft_puterr(char *str);
+void			ft_sleep(int milis);
 
 /*
 ** philosopher.c — fuctions that implement the functionality of a philosopher.

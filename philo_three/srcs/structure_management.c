@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:10:45 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/09 18:17:19 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/24 14:45:00 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ t_briefcase	*give_briefcase(int number, t_briefcase *proto)
 	new_briefcase->last_meal = proto->last_meal;
 	new_briefcase->meal_count = proto->meal_count;
 	new_briefcase->eat_target = proto->eat_target;
+	new_briefcase->grab_semaphore = proto->grab_semaphore;
 	return (new_briefcase);
 }
 
@@ -88,6 +89,7 @@ int			init_semaphores(t_briefcase *proto)
 	i = 0;
 	proto->print = new_semaphore("print", 1);
 	proto->fork_semaphore = new_semaphore("forks", proto->total);
+	proto->grab_semaphore = new_semaphore("grab", 1);
 	proto->finish = new_semaphore("finish", 1);
 	proto->protectors = malloc(sizeof(sem_t *) * (proto->total));
 	name[0] = 'p';

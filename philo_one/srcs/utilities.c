@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:14:20 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/08 15:50:33 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/25 12:35:23 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,15 @@ void	print_state(char *state, int number, pthread_mutex_t *print_mutex,
 void	ft_puterr(char *str)
 {
 	write(2, str, ft_strlen(str));
+}
+
+void	ft_sleep(int milis)
+{
+	long start_time;
+
+	start_time = get_time();
+	while (get_time() - start_time < milis)
+	{
+		usleep(FTSLEEP_DELAY);
+	}
 }

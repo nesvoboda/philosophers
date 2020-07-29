@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:29:49 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/12 15:18:33 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/25 12:34:43 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	*monitoring_thread(void *value)
 			*(monitor->death_flag) = 42;
 			return (NULL);
 		}
-		usleep(2000);
+		usleep(MONITORING_DELAY);
 	}
 	return (NULL);
 }

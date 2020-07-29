@@ -6,7 +6,7 @@
 /*   By: ashishae <ashishae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 14:14:20 by ashishae          #+#    #+#             */
-/*   Updated: 2020/07/11 18:15:07 by ashishae         ###   ########.fr       */
+/*   Updated: 2020/07/25 12:37:49 by ashishae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,15 @@ void	rogue_print_state(char *state, int number)
 void	ft_puterr(char *str)
 {
 	write(2, str, ft_strlen(str));
+}
+
+void	ft_sleep(int milis)
+{
+	long start_time;
+
+	start_time = get_time();
+	while (get_time() - start_time < milis)
+	{
+		usleep(FTSLEEP_DELAY);
+	}
 }
